@@ -1,5 +1,6 @@
 package com.example.klit
 
+import android.widget.TextView
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun translation() {
-        assertEquals("tree", callAPI("나무")[0])
+        assertEquals("tree", callAPI("나무").subSequence(0,4))
     }
+
 }

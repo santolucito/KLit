@@ -3,7 +3,7 @@ package com.example.klit
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import kotlinx.coroutines.*
+import android.text.method.LinkMovementMethod
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,21 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val poemTextView = findViewById<TextView>(R.id.poem)
-        poemTextView.text = loadPoem()
 
-        GlobalScope.launch {
-            updateTranslation()
-        }
-    }
+        var ss = genClickables(loadPoem(), findViewById<TextView>(R.id.translation))
 
-    suspend fun updateTranslation() = coroutineScope {
-        launch {
-            val translationTextView: TextView = findViewById<TextView>(R.id.translation)
-            val testKoreanWord = "나무"
-            val translatedKoreanWord =
-                callAPI(testKoreanWord)[0]
-            translationTextView.text = testKoreanWord + "\n" + translatedKoreanWord
-        }
+        poemTextView.text = ss
+        poemTextView.movementMethod = LinkMovementMethod.getInstance()
+
+
     }
 
     private fun readFileDirectlyAsText(fileName: String): String {
@@ -36,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadPoem(): String {
-        return readFileDirectlyAsText("testpoem.txt")
+        return readFileDirectlyAsText("hometown.txt")
     }
 
 
